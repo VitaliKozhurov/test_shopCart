@@ -1,24 +1,14 @@
 import '../App.css'
-import {fetchToGoods} from "../features/api/api.ts";
+import {Routes,Route} from "react-router-dom";
+import {Products} from "../features/product/ui/products.tsx";
 
 
 function App() {
 
-    const send = () => {
-        const res = fetchToGoods();
-        res.then(data => console.log(data))
-    }
-
     return (
-        <>
-            <h1>Hello</h1>
-            <button>
-                add info in db
-            </button>
-            <button onClick={send}>
-                Read data
-            </button>
-        </>
+        <Routes>
+            <Route path={''} element={<Products/>}/>
+        </Routes>
     )
 }
 
