@@ -8,7 +8,6 @@ import {getTotalPrice} from "../../../features/cart/model/cart-selectors.ts";
 
 export const Header = () => {
     const totalPrice = useAppSelector(getTotalPrice);
-    console.log(totalPrice)
     return (
         <Box sx={{flexGrow: 1}}>
             <AppBar position="static">

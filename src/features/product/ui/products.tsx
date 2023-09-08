@@ -5,6 +5,7 @@ import {useSelector} from "react-redux";
 import {AppRootStateType} from "../../../app/store.ts";
 import {ProductType} from "../api/api.ts";
 import {Product} from "./product/product.tsx";
+import s from './products.module.css'
 
 export const Products = () => {
     const dispatch = useAppDispatch();
@@ -14,7 +15,7 @@ export const Products = () => {
     },[])
 
     return (
-      <div>
+      <div className={s.container}>
           {
               products.map(prod=>(
                   <Product key={prod.id} {...prod}/>

@@ -6,9 +6,7 @@ export const getTotalPrice = (state: AppRootStateType) => {
     } else {
         let total = 0;
         for (const key of Object.keys(state.cart)) {
-            total += state.cart[key].reduce((acc, currentValue) => {
-                return acc + currentValue.price
-            }, 0)
+            total += state.cart[key].product.price * state.cart[key].count
         }
         return total
     }
