@@ -1,8 +1,9 @@
 import {Button, TextField} from "@mui/material";
-import {ChangeEvent, FormEvent, useState} from "react";
-import {setToLocalStorage} from "../../../../common/utils/utils.ts";
 import {useAppSelector} from "../../../../app/hooks/hooks.ts";
 import {getProductsInCart} from "../../model/cart-selectors.ts";
+import {useFormik} from "formik";
+import * as Yup from 'yup';
+import {setToLocalStorage} from "../../../../common/utils/utils.ts";
 
 export type FormStateType = {
     name: string
@@ -18,88 +19,65 @@ export type FormErrorType = {
     phone: boolean
 }
 
-type FormKeysType = keyof FormStateType;
-
 export const OrderForm = () => {
     const products = useAppSelector(getProductsInCart);
-    const [values, setValues] = useState<FormStateType>({
-        name: '',
-        surName: '',
-        address: '',
-        phone: ''
-    });
-    const [errors, setErrors] = useState<FormErrorType>({
-        name: false,
-        surName: false,
-        address: false,
-        phone: false
-    });
-
-    const handleChange = (fieldName: FormKeysType) => (event: ChangeEvent<HTMLInputElement>) => {
-        const newValue = event.target.value;
-        setValues({...values, [fieldName]: newValue});
-    };
-
-    const handleSubmit = (event: FormEvent<HTMLFormElement>) => {
-        event.preventDefault();
-        setToLocalStorage({products, userData: values})
-
-        setValues({
+    const formik = useFormik({
+        initialValues: {
             name: '',
             surName: '',
             address: '',
             phone: ''
-        });
-    };
-
-
+        },
+        validationSchema: Yup.object({
+            name: Yup.string().required('This field is required'),
+            surName: Yup.string().required('This field is required'),
+            address: Yup.string().required('This field is required'),
+            phone: Yup.string().required('This field is required')
+        }),
+        validateOnBlur: false,
+        onSubmit: values => {
+            setToLocalStorage({products, userData: values})
+        },
+    });
     return (
-        <form onSubmit={handleSubmit} style={{textAlign: 'center'}}>
+        <form onSubmit={formik.handleSubmit} style={{textAlign: 'center'}}>
             <TextField
                 sx={{marginBottom: '20px'}}
                 label="Name"
                 placeholder={'Name'}
-                name="name"
-                value={values.name}
-                onChange={handleChange('name')}
                 fullWidth
-                error={errors.name}
-                helperText="Incorrect entry."
+                {...formik.getFieldProps('name')}
+                error={!!formik.errors.name}
+                helperText={!!formik.errors.name && formik.errors.name}
             />
             <TextField
                 sx={{marginBottom: '20px'}}
                 label="Surname"
                 placeholder={'Surname'}
-                name="surname"
-                value={values.surName}
-                onChange={handleChange('surName')}
                 fullWidth
-                error={errors.surName}
-                helperText="Incorrect entry."
+                {...formik.getFieldProps('surName')}
+                error={!!formik.errors.surName}
+                helperText={!!formik.errors.surName && formik.errors.surName}
             />
             <TextField
                 sx={{marginBottom: '20px'}}
                 label="Address"
                 placeholder={'Address'}
-                name="address"
-                value={values.address}
-                onChange={handleChange('address')}
                 fullWidth
-                error={errors.address}
-                helperText="Incorrect entry."
+                {...formik.getFieldProps('address')}
+                error={!!formik.errors.address}
+                helperText={!!formik.errors.address && formik.errors.address}
             />
             <TextField
                 sx={{marginBottom: '20px'}}
                 label="Phone"
                 placeholder={'Phone'}
-                name="phone"
-                value={values.phone}
-                onChange={handleChange('phone')}
                 fullWidth
-                error={errors.phone}
-                helperText="Incorrect entry."
+                {...formik.getFieldProps('phone')}
+                error={!!formik.errors.phone}
+                helperText={!!formik.errors.phone && formik.errors.phone}
             />
-            <Button type="submit" variant="contained" color="primary">
+            <Button type="submit" variant="contained" color="primary" disabled={!!Object.keys(formik.errors).length}>
                 Order
             </Button>
         </form>
