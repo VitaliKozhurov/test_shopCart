@@ -11,3 +11,7 @@ export const getTotalPrice = (state: AppRootStateType) => {
         return total
     }
 }
+
+export const getProductsInCart = (state:AppRootStateType)=>{
+    return Object.values(state.cart)
+}

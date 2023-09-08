@@ -5,6 +5,7 @@ import Typography from '@mui/material/Typography';
 import {CustomBadge} from "./Baddge.tsx";
 import {useAppSelector} from "../../../app/hooks/hooks.ts";
 import {getTotalPrice} from "../../../features/cart/model/cart-selectors.ts";
+import {Link} from "react-router-dom";
 
 export const Header = () => {
     const totalPrice = useAppSelector(getTotalPrice);
@@ -13,9 +14,11 @@ export const Header = () => {
             <AppBar position="static">
                 <Toolbar>
                     <Typography variant="h6" component="div" sx={{flexGrow: 1}}>
-                        Cart
+                        Online Shop
                     </Typography>
-                    <CustomBadge totalPrice={totalPrice}/>
+                    <Link to={'/cart'} style={{color: '#fff'}}>
+                        <CustomBadge totalPrice={totalPrice}/>
+                    </Link>
                 </Toolbar>
             </AppBar>
         </Box>

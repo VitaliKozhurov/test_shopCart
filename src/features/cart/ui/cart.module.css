@@ -1,0 +1,15 @@
+.cartContainer {
+    display: flex;
+    gap: 80px;
+    color: #000;
+}
+
+.cartList {
+    flex: 0 1 60%;
+    padding: 30px;
+}
+
+.orderField {
+    flex: 0 1 40%;
+    padding: 30px;
+}
