@@ -2,7 +2,6 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit'
 import {AppDispatch, AppRootStateType} from "../../../app/store.ts";
 import {fetchToProducts, ProductType} from "../api/api.ts";
 
-
 export const productsSlice = createSlice({
     name: 'products',
     initialState: [] as ProductType[],

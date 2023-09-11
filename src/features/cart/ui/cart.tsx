@@ -20,7 +20,7 @@ export const Cart = () => {
                     <h2>Ordered List</h2>
                     <div>
                         {
-                            products.map(prod => (
+                            Object.values(products).map(prod => (
                                 <ProductForCart key={prod.product.id} {...prod} />
                             ))
                         }

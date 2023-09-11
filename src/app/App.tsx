@@ -4,7 +4,6 @@ import {Products} from "../features/product/ui/products.tsx";
 import {Header} from "../common/components/header/header.tsx";
 import {Cart} from "../features/cart/ui/cart.tsx";
 
-
 function App() {
 
     return (

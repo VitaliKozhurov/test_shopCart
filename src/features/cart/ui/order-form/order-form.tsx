@@ -1,33 +1,17 @@
 import {Button, TextField} from "@mui/material";
-import {useAppSelector} from "../../../../app/hooks/hooks.ts";
-import {getProductsInCart} from "../../model/cart-selectors.ts";
 import {useFormik} from "formik";
 import * as Yup from 'yup';
+import {useAppDispatch, useAppSelector} from "../../../../app/hooks/hooks.ts";
+import {cartActions} from "../../model/cart-slice.ts";
 import {setToLocalStorage} from "../../../../common/utils/utils.ts";
-
-export type FormStateType = {
-    name: string
-    surName: string
-    address: string
-    phone: string
-}
-
-export type FormErrorType = {
-    name: boolean
-    surName: boolean
-    address: boolean
-    phone: boolean
-}
+import {getProductsInCart, getUserState} from "../../model/cart-selectors.ts";
 
 export const OrderForm = () => {
-    const products = useAppSelector(getProductsInCart);
+    const order = useAppSelector(getProductsInCart)
+    const userState = useAppSelector(getUserState)
+    const dispatch = useAppDispatch();
     const formik = useFormik({
-        initialValues: {
-            name: '',
-            surName: '',
-            address: '',
-            phone: ''
-        },
+        initialValues: userState,
         validationSchema: Yup.object({
             name: Yup.string().required('This field is required'),
             surName: Yup.string().required('This field is required'),
@@ -36,7 +20,9 @@ export const OrderForm = () => {
         }),
         validateOnBlur: false,
         onSubmit: values => {
-            setToLocalStorage({products, userData: values})
+            dispatch(cartActions.addUserInfo(values));
+            const stateObj = {products: [], cart: {order, user: values}}
+            setToLocalStorage(stateObj)
         },
     });
     return (
